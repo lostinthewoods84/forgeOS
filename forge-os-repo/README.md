@@ -1,8 +1,14 @@
-# ForgeOS
+<p align="center">
+  <img src="assets/ForgeOSLogo.png" alt="ForgeOS" width="600">
+</p>
 
-**An event-driven AI factory that replaces agent-to-agent communication with structured, contract-based artifacts.**
+<p align="center">
+  <strong>An event-driven AI factory that replaces agent-to-agent communication with structured, contract-based artifacts.</strong>
+</p>
 
-Each step produces traceable outputs, making AI-assisted development deterministic, debuggable, and scalable.
+<p align="center">
+  Each step produces traceable outputs, making AI-assisted development deterministic, debuggable, and scalable.
+</p>
 
 ---
 
@@ -26,17 +32,9 @@ The agents negotiate. They improvise. The output varies wildly. When something b
 
 **Replace agent-to-agent communication with contract-based artifacts.**
 
-```
-Human Decision
-     ↓
-[ Ideate ] → Requirements Artifact
-     ↓
-[ Structure ] → Build Prompt Artifact
-     ↓
-[ Execute ] → Code Artifact
-     ↓
-Git Commit (Source of Truth)
-```
+<p align="center">
+  <img src="assets/ForgeArch.png" alt="ForgeOS Architecture" width="500">
+</p>
 
 Each layer:
 - Reads from the previous artifact
@@ -63,10 +61,10 @@ No agent chat. No negotiation. Just a production line.
 ## The Repository Is the System
 
 Your repo defines:
-- **Roles** - Architect, UX, QA, Process Engineer (AI team members)
-- **Specs** - Canonical definitions that AI must follow
-- **Constraints** - What each layer can and cannot do
-- **Artifacts** - Traceable outputs at each step
+- **Roles** – Architect, UX, QA, Process Engineer (AI team members)
+- **Specs** – Canonical definitions that AI must follow
+- **Constraints** – What each layer can and cannot do
+- **Artifacts** – Traceable outputs at each step
 
 ```
 your-project/
