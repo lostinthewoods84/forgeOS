@@ -1,235 +1,282 @@
-# ForgeOS Workflow
+ForgeOS Workflow
 
-How work flows through the AI-native team.
+How work flows from idea → production → learning in an AI-native system.
 
----
+Core Principle
 
-## The Three Layers
+AI generates and executes. Humans decide and validate.
 
-### Layer 1: Ideate + Iterate
-**Tool:** ChatGPT (or equivalent conversational AI)  
-**Job:** Explore the problem space, iterate on requirements, hold context
+The system is not constrained by output.
+It is constrained by human decision-making capacity.
 
-**Inputs:**
-- Rough problem statement
-- Constraints and goals
-- Questions to answer
+All workflow design exists to:
 
-**Outputs:**
-- Refined requirements
-- Options with tradeoffs
-- Recommendations
-- PRD-style documentation
+Protect human attention
+Prevent overproduction
+Convert output into validated learning
+The End-to-End Flow
+IDEATE → STRUCTURE → EXECUTE → REVIEW → MERGE → LEARN → (repeat)
 
-**What happens here:**
-- Rapid back-and-forth exploration
-- "What if we..." conversations
-- Tradeoff analysis
-- Context accumulation across a long conversation
+Each stage:
 
-**Does NOT produce:**
-- Final decisions (human decides)
-- Implementation code
-- Architectural changes
+Produces explicit artifacts
+Has a clear owner (AI vs Human)
+Requires human approval before advancing
+Stage 1: Ideate (Explore + Define)
 
----
+Tool: ChatGPT
+Owner: Human + AI (AI assists, human decides)
 
-### Layer 2: Structure + Engineer
-**Tool:** Claude (or equivalent reasoning AI)  
-**Job:** Turn decisions into structured plans, write production code
+Purpose
 
-**Inputs:**
-- Refined requirements from Layer 1
-- Human decision on direction
-- Reference to canonical files (SPEC.md, ARCH.md, FLOWS.md)
+Explore the problem space and converge on a direction.
 
-**Outputs:**
-- Build Prompts for Layer 3
-- Technical analysis with impact assessment
-- Production-ready code
-- Schema changes
-- Documentation updates
+Inputs
+Rough idea or problem
+Constraints and goals
+Questions / unknowns
+Outputs (Artifacts)
+Refined problem statement
+Options with tradeoffs
+Chosen direction (explicit)
+PRD or Feature Card
+Human Approval Point
 
-**What happens here:**
-- Structured analysis against existing architecture
-- Explicit scope definition
-- Constraint identification
-- Detailed implementation plans
+✅ Decision Required:
 
-**Does NOT produce:**
-- Executed changes (Layer 3 does that)
-- Deployed code
-- Merged commits
+Which direction to pursue
+Whether the problem is worth solving now
 
----
+No decision → do not proceed
 
-### Layer 3: Execute + Deploy
-**Tool:** Replit, Claude Code, or cloud deployment  
-**Job:** Implement exactly what's specified, build, test, deploy
+Handoff → Structure
 
-**Inputs:**
-- Build Prompt with explicit scope
-- List of files to modify
-- Acceptance criteria
-- Constraints (what NOT to do)
+Pass:
 
-**Outputs:**
-- Working code changes
-- Test results
-- Git commits
-- Deployment artifacts
+PRD / Feature Card
+Explicit decision
+Constraints and non-goals
+Stage 2: Structure (Plan + Constrain)
 
-**What happens here:**
-- Constrained implementation
-- No creative interpretation
-- Strict adherence to scope
-- Stop-and-report on conflicts
+Tool: Claude
+Owner: AI (structure) + Human (approval)
 
-**Does NOT produce:**
-- Architectural decisions
-- New designs
-- Scope expansions
+Purpose
 
----
+Turn decisions into a bounded, executable plan.
 
-## The Handoff Pattern
+Inputs
+PRD / Feature Card
+Human decision
+Canonical files (SPEC.md, ARCH.md, FLOWS.md, etc.)
+Outputs (Artifacts)
+Build Prompt (for execution)
+Explicit file scope
+Current state → target state mapping
+Constraints (DO NOT MODIFY)
+Acceptance criteria
+Human Approval Point
 
-```
-┌──────────────┐
-│   IDEATE     │  Human + ChatGPT explore
-└──────┬───────┘
-       │ Human decides direction
-       ▼
-┌──────────────┐
-│  STRUCTURE   │  Claude creates Build Prompt
-└──────┬───────┘
-       │ Human approves scope
-       ▼
-┌──────────────┐
-│   EXECUTE    │  Replit implements exactly that
-└──────┬───────┘
-       │ Human reviews and merges
-       ▼
-┌──────────────┐
-│     GIT      │  Commit = Decision is final
-└──────────────┘
-```
+✅ Decision Required:
 
-**Key principle:** Humans are the decision points. AI proposes, humans dispose.
+Is scope correct?
+Are constraints respected?
+Are risks understood?
 
----
+If unclear → send back to Ideate or refine
 
-## What Lives in the Repo
+Handoff → Execute
 
-The repository is **shared memory** for all AI tools. Every tool reads from and writes to the same canonical files.
+Pass:
 
-```
-your-project/
-├── .forge/
-│   ├── roles/           # AI team member definitions
-│   │   ├── ARCHITECT.md
-│   │   ├── UX.md
-│   │   ├── QA.md
-│   │   └── PROCESS.md
-│   └── WORKFLOW.md      # This file
-├── docs/
-│   ├── SPEC.md          # What the system does
-│   ├── ARCH.md          # How it's structured
-│   ├── FLOWS.md         # User journeys and screens
-│   ├── EVENTS.md        # Event contracts (if event-driven)
-│   └── DECISIONS.md     # Logged decisions with rationale
-├── prompts/             # Active build prompts
-│   └── [feature]-build-prompt.md
-└── src/                 # Your code
-```
+Build Prompt
+File list
+Acceptance criteria
+Constraints
+Stage 3: Execute (Implement + Build)
 
----
+Tool: Replit / Claude Code / CI system
+Owner: AI (execution)
 
-## The Canonical Files
+Purpose
 
-### SPEC.md
-**What it is:** Defines what the system does. Behavior, requirements, capabilities.
+Implement exactly what was specified — nothing more.
 
-**Who owns it:** Human (with AI assistance)
+Inputs
+Build Prompt
+Explicit file scope
+Acceptance criteria
+Constraints
+Outputs (Artifacts)
+Code changes
+Test results
+Modified files list
+Deployment artifacts (if applicable)
+Rules
+No scope expansion
+No architectural decisions
+No “improvements” outside scope
+Stop Conditions (Escalate to Human)
+Ambiguity in requirements
+Conflicting instructions
+Unexpected architectural impact
+Handoff → Review
 
-**When to update:** When system behavior changes
+Pass:
 
-**Rule:** AI must not contradict SPEC.md. If implementation differs from spec, either fix implementation or update spec explicitly.
+Code + changes summary
+Test results
+Confirmation of constraint adherence
+Stage 4: Review (Validate + Decide)
 
-### ARCH.md
-**What it is:** Defines how the system is structured. Services, boundaries, dependencies.
+Tool: Human (primary), AI (supporting)
 
-**Who owns it:** Architect role
+Purpose
 
-**When to update:** When adding services, changing boundaries, or modifying contracts
+Validate that execution matches intent and quality standards.
 
-**Rule:** Execute layer cannot introduce services or dependencies not in ARCH.md.
+Inputs
+Code changes
+Acceptance criteria
+Original decision / PRD
+Outputs (Artifacts)
+Approval or rejection
+Feedback / required changes
+Human Approval Point
 
-### FLOWS.md
-**What it is:** Defines user journeys. Screens, states, transitions.
+✅ Decision Required:
 
-**Who owns it:** UX role
+Does this meet the Definition of Done?
+Is this safe to merge?
+Is the outcome correct (not just the code)?
+Handoff → Merge
 
-**When to update:** When adding screens or changing user flows
+Only approved work proceeds.
 
-**Rule:** UI implementation must not invent screens or states not in FLOWS.md.
+Stage 5: Merge (Commit + Finalize)
 
-### EVENTS.md
-**What it is:** Defines event contracts. Types, payloads, who emits what.
+Tool: Git
 
-**Who owns it:** Architect role
+Purpose
 
-**When to update:** When adding event types or changing contracts
+Make the decision permanent.
 
-**Rule:** Execute layer cannot add new event types without EVENTS.md update.
+Inputs
+Approved changes
+Outputs (Artifacts)
+Git commit
+Updated system state
+Rule
 
-### DECISIONS.md
-**What it is:** Log of architectural and design decisions with rationale.
+A commit is not just code — it is a recorded decision.
 
-**Who owns it:** Human
+Each commit must:
 
-**When to update:** Before implementing any significant change
+Reference the decision (DECISIONS.md)
+Reference the prompt used
+Be scoped to a single logical change
+Stage 6: Learn (Feedback + Adapt)
 
-**Rule:** Every non-trivial change should trace back to a DECISIONS.md entry.
+Tool: Human + AI
 
----
+Purpose
 
-## Why This Works
+Convert shipped work into validated learning.
 
-### Traditional AI workflow:
-```
-Human → AI → Output → Problems → Human fixes → More problems → Entropy
-```
+Inputs
+Real-world usage
+Feedback (users, stakeholders, data)
+Observed outcomes
+Outputs (Artifacts)
+Updated assumptions
+New or revised decisions
+Follow-up Feature Cards / PRDs
+Human Approval Point
 
-### ForgeOS workflow:
-```
-Human → Repo defines rules → AI operates within rules → Consistent output → Repo updated → Repeat
-```
+✅ Decision Required:
 
-The difference:
-- **Without structure:** Each AI interaction starts fresh, drifts in different directions
-- **With structure:** Each AI interaction is grounded in the same canonical context
+Did this solve the problem?
+What did we learn?
+What should we do next?
+Feedback Loop
+LEARN → feeds back into → IDEATE
 
----
+This is where the system improves.
 
-## Common Failure Modes
+Handoff Summary (System View)
+Stage	Produces	Human Approval	Next Stage
+Ideate	PRD / Feature Card	Direction decision	Structure
+Structure	Build Prompt	Scope + constraints	Execute
+Execute	Code + artifacts	None (unless blocked)	Review
+Review	Approval / feedback	Go / No-Go	Merge
+Merge	Commit	Implicit	Learn
+Learn	Insights + next steps	What next?	Ideate
+Artifact Flow
+Idea
+  ↓
+Feature Card / PRD
+  ↓
+Build Prompt
+  ↓
+Code Changes
+  ↓
+Commit (Decision)
+  ↓
+Learning / Insights
+  ↓
+Next Idea
+Repository as Shared Memory
 
-| Symptom | Cause | Fix |
-|---------|-------|-----|
-| AI contradicts previous decisions | No DECISIONS.md | Start logging decisions |
-| Architecture drifts over time | No ARCH.md | Define service boundaries |
-| UX inconsistent across features | No FLOWS.md | Document user journeys |
-| Execute layer takes liberties | Vague Build Prompt | Add explicit constraints |
-| Same bug keeps reappearing | No QA role active | Define acceptance criteria upfront |
+The repo is the single source of truth across all tools.
 
----
+Key files:
 
-## Getting Started
+SPEC.md → What the system does
+ARCH.md → How it is structured
+FLOWS.md → User experience
+EVENTS.md → Contracts (if event-driven)
+DECISIONS.md → Why things are the way they are
+Critical Rules
+1. Humans are the decision points
 
-1. **Create `.forge/roles/`** - Copy the role definitions
-2. **Create `docs/SPEC.md`** - What does your system do?
-3. **Create `docs/ARCH.md`** - What are the main pieces?
-4. **Start DECISIONS.md** - Log your first decision
-5. **Try one Build Prompt** - Use the template for a real feature
+AI proposes and executes. Humans approve and validate.
 
-You don't need everything on day one. Start with SPEC.md and one role. Add more as you feel the pain of missing structure.
+2. No skipping approval points
+
+Speed comes from clarity — not bypassing decisions.
+
+3. Pull, not push
+
+Work only moves forward when the next stage is ready.
+
+4. No overproduction
+
+Do not generate:
+
+More PRDs than can be reviewed
+More code than can be validated
+More work than can be completed
+5. Output is not progress
+
+Progress = validated learning
+
+Common Failure Modes
+Symptom	Root Cause	Fix
+Too many unfinished items	WIP too high	Stop starting, start finishing
+Lots of code, little progress	No validation	Enforce Review stage
+AI doing too much	Skipped approvals	Reinstate human checkpoints
+Rework increasing	Poor DoR	Tighten Definition of Ready
+Burnout / confusion	Overproduction	Reduce input, protect attention
+System Reminder
+
+This workflow is not about speed of generation.
+
+It is about:
+
+Controlling flow
+Protecting decisions
+Turning output into learning
+
+If the system feels chaotic, the issue is not execution.
+
+It is too much work entering the system.
