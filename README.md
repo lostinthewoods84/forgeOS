@@ -123,3 +123,6 @@ This prevents the “AI inventory trap” where speed creates more problems than
 - A fully automated pipeline  
 
 ---
+<p align="center">
+  <img src="assets/ForgeArch.png" alt="ForgeOSArch" width="600">
+</p>
