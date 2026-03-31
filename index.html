@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ForgeOS - Turn Vibe Coding into Production-Ready Workflow</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, sans-serif;
+      background: #0d0d0d;
+      color: #e8e8e8;
+      line-height: 1.7;
+    }
+
+    header {
+      text-align: center;
+      padding: 60px 20px 40px;
+      border-bottom: 1px solid #222;
+    }
+
+    header img {
+      max-width: 480px;
+      width: 90%;
+      margin-bottom: 16px;
+    }
+
+    header p {
+      font-size: 1.15rem;
+      color: #aaa;
+      max-width: 520px;
+      margin: 0 auto;
+    }
+
+    nav {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      padding: 20px;
+      flex-wrap: wrap;
+      border-bottom: 1px solid #222;
+      background: #111;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    nav a {
+      color: #ccc;
+      text-decoration: none;
+      font-size: 0.875rem;
+      padding: 6px 14px;
+      border-radius: 6px;
+      border: 1px solid #333;
+      transition: all 0.2s;
+    }
+
+    nav a:hover {
+      background: #1a1a1a;
+      border-color: #ff6b2b;
+      color: #ff6b2b;
+    }
+
+    main {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 40px 24px 80px;
+    }
+
+    section {
+      margin-bottom: 60px;
+    }
+
+    h2 {
+      font-size: 1.6rem;
+      color: #ff6b2b;
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #222;
+    }
+
+    h3 {
+      font-size: 1.15rem;
+      color: #fff;
+      margin: 24px 0 10px;
+    }
+
+    p {
+      color: #ccc;
+      margin-bottom: 14px;
+    }
+
+    ul, ol {
+      color: #ccc;
+      padding-left: 24px;
+      margin-bottom: 14px;
+    }
+
+    li {
+      margin-bottom: 6px;
+    }
+
+    .loop {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 0;
+      margin: 30px 0;
+    }
+
+    .loop-step {
+      background: #1a1a1a;
+      border: 1px solid #333;
+      padding: 10px 16px;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #ff6b2b;
+    }
+
+    .loop-arrow {
+      color: #444;
+      font-size: 1.2rem;
+      padding: 0 6px;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 16px;
+      margin: 20px 0;
+    }
+
+    .card {
+      background: #111;
+      border: 1px solid #222;
+      border-radius: 10px;
+      padding: 20px;
+    }
+
+    .card h4 {
+      color: #ff6b2b;
+      font-size: 0.95rem;
+      margin-bottom: 8px;
+    }
+
+    .card p {
+      font-size: 0.85rem;
+      color: #999;
+      margin: 0;
+    }
+
+    code {
+      background: #1a1a1a;
+      color: #ff6b2b;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 0.875em;
+    }
+
+    pre {
+      background: #111;
+      border: 1px solid #222;
+      border-radius: 8px;
+      padding: 20px;
+      overflow-x: auto;
+      margin: 16px 0;
+    }
+
+    pre code {
+      background: none;
+      color: #b5cea8;
+      padding: 0;
+      font-size: 0.875rem;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 16px 0;
+      font-size: 0.9rem;
+    }
+
+    th {
+      background: #1a1a1a;
+      color: #ff6b2b;
+      padding: 10px 14px;
+      text-align: left;
+      border-bottom: 1px solid #333;
+    }
+
+    td {
+      padding: 10px 14px;
+      border-bottom: 1px solid #1e1e1e;
+      color: #bbb;
+    }
+
+    tr:last-child td { border-bottom: none; }
+
+    .arch-img {
+      width: 100%;
+      max-width: 700px;
+      display: block;
+      margin: 24px auto;
+      border-radius: 10px;
+    }
+
+    .badge {
+      display: inline-block;
+      background: #1a1a1a;
+      border: 1px solid #333;
+      color: #aaa;
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      margin: 2px;
+    }
+
+    .highlight {
+      background: #1a0f05;
+      border-left: 3px solid #ff6b2b;
+      padding: 16px 20px;
+      border-radius: 0 8px 8px 0;
+      margin: 20px 0;
+    }
+
+    .highlight p { margin: 0; color: #ddd; }
+
+    footer {
+      text-align: center;
+      padding: 30px;
+      border-top: 1px solid #222;
+      color: #555;
+      font-size: 0.85rem;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <img src="assets/ForgeOSLogo.png" alt="ForgeOS Logo">
+  <p>Turn vibe coding into a production-ready workflow. Go from idea to shipped software using AI tools, structured artifacts, and lightweight constraints.</p>
+</header>
+
+<nav>
+  <a href="#overview">Overview</a>
+  <a href="#loop">The Loop</a>
+  <a href="#getting-started">Getting Started</a>
+  <a href="#roles">Roles</a>
+  <a href="#constraints">Constraints</a>
+  <a href="#architecture">Architecture</a>
+</nav>
+
+<main>
+
+  <section id="overview">
+    <h2>What is ForgeOS?</h2>
+    <p>If you're building with ChatGPT, Claude, Replit, Cursor, or similar tools, you can move fast — but things break down:</p>
+    <ul>
+      <li>Requirements are unclear or incomplete</li>
+      <li>Outputs vary between runs</li>
+      <li>Context gets lost between tools</li>
+      <li>Features don't ship cleanly</li>
+      <li>You spend more time fixing than building</li>
+    </ul>
+    <p>ForgeOS adds just enough structure to fix this. <strong>It's not a tool. It's a loop.</strong></p>
+
+    <div class="highlight">
+      <p><strong>ForgeOS is:</strong> A workflow for shipping AI-built software — a way for a single builder to operate like a team.</p>
+    </div>
+  </section>
+
+  <section id="loop">
+    <h2>The ForgeOS Loop</h2>
+    <p>Every feature follows the same flow:</p>
+
+    <div class="loop">
+      <span class="loop-step">Idea</span>
+      <span class="loop-arrow">→</span>
+      <span class="loop-step">READY</span>
+      <span class="loop-arrow">→</span>
+      <span class="loop-step">PRD</span>
+      <span class="loop-arrow">→</span>
+      <span class="loop-step">BUILD</span>
+      <span class="loop-arrow">→</span>
+      <span class="loop-step">DONE</span>
+      <span class="loop-arrow">→</span>
+      <span class="loop-step">LEARNING</span>
+      <span class="loop-arrow">→</span>
+      <span class="loop-step">Next Idea</span>
+    </div>
+
+    <div class="cards">
+      <div class="card">
+        <h4>READY</h4>
+        <p>Clarify what you're building. 2 minutes. If you can't fill it out, you're not ready.</p>
+      </div>
+      <div class="card">
+        <h4>PRD</h4>
+        <p>Generate a buildable spec with ChatGPT. You review and own it.</p>
+      </div>
+      <div class="card">
+        <h4>BUILD</h4>
+        <p>Generate and implement with Claude → Replit. Scoped and constrained.</p>
+      </div>
+      <div class="card">
+        <h4>DONE</h4>
+        <p>Validate against your original intent. Compare to READY, not AI output.</p>
+      </div>
+      <div class="card">
+        <h4>LEARNING</h4>
+        <p>Capture what actually happened. Turn output into insight.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="getting-started">
+    <h2>Getting Started</h2>
+    <p>Run your first feature in 15–30 minutes:</p>
+    <ol>
+      <li>Copy the Feature Card template to your project</li>
+      <li>Fill out READY (2 minutes)</li>
+      <li>Generate a PRD using ChatGPT</li>
+      <li>Generate a build prompt using Claude</li>
+      <li>Implement in Replit (or your IDE)</li>
+      <li>Complete the DONE check</li>
+      <li>Capture LEARNING</li>
+    </ol>
+
+    <h3>Copy the Feature Card</h3>
+    <pre><code>mkdir -p prompts
+cp templates/FEATURE-CARD.md prompts/feature-[your-feature-name].md</code></pre>
+
+    <h3>Fill out READY</h3>
+    <pre><code>## 1. READY
+
+What:
+Add a notification button to the header
+
+Why:
+Users need visibility into updates and system activity
+
+Success:
+- Bell icon in header
+- Shows unread count
+- Opens dropdown panel
+
+Not doing:
+- No backend persistence
+- No email notifications</code></pre>
+
+    <h3>As Complexity Grows</h3>
+    <table>
+      <tr>
+        <th>Friction</th>
+        <th>What to Add</th>
+        <th>Purpose</th>
+      </tr>
+      <tr>
+        <td>AI contradicts previous decisions</td>
+        <td><code>docs/DECISIONS.md</code></td>
+        <td>Log of decisions with rationale</td>
+      </tr>
+      <tr>
+        <td>Architecture drifts between sessions</td>
+        <td><code>docs/ARCH.md</code></td>
+        <td>Service boundaries and dependencies</td>
+      </tr>
+      <tr>
+        <td>UI becomes inconsistent</td>
+        <td><code>docs/FLOWS.md</code></td>
+        <td>Screen inventory and user journeys</td>
+      </tr>
+      <tr>
+        <td>AI takes liberties with implementation</td>
+        <td>Stricter Build Prompt constraints</td>
+        <td>Tighter execution scope</td>
+      </tr>
+      <tr>
+        <td>Same bugs reappear</td>
+        <td><code>roles/QA.md</code></td>
+        <td>Test criteria and acceptance standards</td>
+      </tr>
+    </table>
+  </section>
+
+  <section id="roles">
+    <h2>AI Roles</h2>
+    <p>ForgeOS includes role definitions that constrain AI behavior at different stages. Include the relevant role file in your AI prompt:</p>
+
+    <div class="cards">
+      <div class="card">
+        <h4>ARCHITECT</h4>
+        <p>When services start stepping on each other. Controls system design decisions.</p>
+      </div>
+      <div class="card">
+        <h4>UX</h4>
+        <p>When user flows need consistency across screens and journeys.</p>
+      </div>
+      <div class="card">
+        <h4>QA</h4>
+        <p>When you need repeatable test criteria and acceptance standards.</p>
+      </div>
+      <div class="card">
+        <h4>PROCESS</h4>
+        <p>When workflow discipline starts slipping. Enforces the loop.</p>
+      </div>
+    </div>
+
+    <pre><code>mkdir -p .forge/roles
+cp roles/ARCHITECT.md .forge/roles/
+cp roles/UX.md .forge/roles/
+cp roles/QA.md .forge/roles/
+cp roles/PROCESS.md .forge/roles/</code></pre>
+  </section>
+
+  <section id="constraints">
+    <h2>Core Constraints</h2>
+
+    <div class="highlight">
+      <p><strong>Human decision-making is the bottleneck.</strong> AI can generate, transform, and execute — but it cannot be the final authority.</p>
+    </div>
+
+    <h3>System Rules</h3>
+    <ul>
+      <li><strong>Do Not Overproduce</strong> — Only generate what can be reviewed. More artifacts = more waste.</li>
+      <li><strong>Limit Work in Progress</strong> — Prefer finishing over starting. WIP kills decision quality.</li>
+      <li><strong>AI Accelerates Execution, Not Authority</strong> — Every critical step requires human validation.</li>
+      <li><strong>Optimize for Learning, Not Output</strong> — Progress = validated assumptions + real-world feedback.</li>
+    </ul>
+
+    <h3>Operating Principles</h3>
+    <ul>
+      <li><strong>Pull, not push</strong> — Work is only created when the next stage is ready to receive it.</li>
+      <li><strong>Review is sacred</strong> — Protect time and space for thoughtful validation.</li>
+      <li><strong>Clarity over speed</strong> — Fast wrong decisions are more expensive than slow correct ones.</li>
+      <li><strong>Tight feedback loops</strong> — Every cycle should reduce uncertainty.</li>
+    </ul>
+
+    <h3>Anti-Patterns</h3>
+    <ul>
+      <li>AI generating large volumes of unreviewed artifacts</li>
+      <li>Multiple PRDs or features progressing without validation</li>
+      <li>Skipping human review for the sake of speed</li>
+      <li>Treating AI confidence as a substitute for human judgment</li>
+      <li>Starting new features before capturing LEARNING from the last one</li>
+    </ul>
+  </section>
+
+  <section id="architecture">
+    <h2>Architecture</h2>
+    <img src="assets/ForgeArch.png" alt="ForgeOS Architecture Diagram" class="arch-img">
+
+    <h3>Tool Stack</h3>
+    <div class="cards">
+      <div class="card">
+        <h4>Ideation</h4>
+        <p>ChatGPT or any LLM. Expand ideas into PRDs.</p>
+      </div>
+      <div class="card">
+        <h4>Structuring</h4>
+        <p>Claude. Follows complex templates to generate precise build prompts.</p>
+      </div>
+      <div class="card">
+        <h4>Execution</h4>
+        <p>Replit, Claude Code, or Cursor. Implements what the build prompt specifies.</p>
+      </div>
+    </div>
+
+    <h3>Key Artifacts</h3>
+    <ul>
+      <li><span class="badge">Feature Card</span> — The primary unit of work. Tracks a feature end-to-end.</li>
+      <li><span class="badge">PRD</span> — Product Requirements Document. Buildable spec generated from READY.</li>
+      <li><span class="badge">Build Prompt</span> — Scoped, constrained instruction for the execution tool.</li>
+      <li><span class="badge">Role Files</span> — AI persona definitions to constrain behavior per stage.</li>
+    </ul>
+  </section>
+
+</main>
+
+<footer>
+  <p>ForgeOS &mdash; Turn vibe coding into a production-ready workflow. &nbsp;|&nbsp; <a href="https://github.com" style="color:#555">GitHub</a></p>
+</footer>
+
+</body>
+</html>
