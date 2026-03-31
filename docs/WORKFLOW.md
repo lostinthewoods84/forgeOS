@@ -1,282 +1,224 @@
-ForgeOS Workflow
+# ForgeOS Workflow
 
-How work flows from idea → production → learning in an AI-native system.
+How work flows through the system, stage by stage.
 
-Core Principle
+Each stage of the Feature Card loop has defined inputs, outputs, ownership, and failure modes. When followed, the loop produces validated, shippable work. When stages are skipped or shortcut, the system breaks in predictable ways.
 
-AI generates and executes. Humans decide and validate.
+---
 
-The system is not constrained by output.
-It is constrained by human decision-making capacity.
+## Stage 1: READY
 
-All workflow design exists to:
+**Purpose:** Define and constrain the feature before any AI touches it.
 
-Protect human attention
-Prevent overproduction
-Convert output into validated learning
-The End-to-End Flow
-IDEATE → STRUCTURE → EXECUTE → REVIEW → MERGE → LEARN → (repeat)
+**Input:** An idea, problem, or opportunity.
 
-Each stage:
+**Output:** READY section of the Feature Card, containing:
+- What the feature is (one sentence)
+- Why it matters
+- What success looks like
+- What is explicitly out of scope
 
-Produces explicit artifacts
-Has a clear owner (AI vs Human)
-Requires human approval before advancing
-Stage 1: Ideate (Explore + Define)
+**Role:** Human. This is entirely your job. AI does not participate in READY.
 
-Tool: ChatGPT
-Owner: Human + AI (AI assists, human decides)
+**Advance when:** You can clearly articulate all four fields. A second person (or your future self) could read this and understand what you're building.
 
-Purpose
+**Do not advance when:** The scope is vague, success isn't defined, or you're unsure whether this is worth building.
 
-Explore the problem space and converge on a direction.
+### Common Failure Modes
 
-Inputs
-Rough idea or problem
-Constraints and goals
-Questions / unknowns
-Outputs (Artifacts)
-Refined problem statement
-Options with tradeoffs
-Chosen direction (explicit)
-PRD or Feature Card
-Human Approval Point
+| Failure | Symptom | Fix |
+|---------|---------|-----|
+| Vague scope | PRD balloons with AI-invented requirements | Write a tighter "What" and "Not doing" |
+| Missing success criteria | Can't tell if the result is correct at DONE | Define observable outcomes before proceeding |
+| Skipped entirely | Everything downstream drifts | Always start here, even for small features |
 
-✅ Decision Required:
+---
 
-Which direction to pursue
-Whether the problem is worth solving now
+## Stage 2: PRD
 
-No decision → do not proceed
+**Purpose:** Expand the READY section into structured, buildable requirements.
 
-Handoff → Structure
+**Input:** READY section of the Feature Card.
 
-Pass:
+**Output:** PRD section of the Feature Card, containing:
+- Detailed requirements
+- Expected behavior
+- Edge cases
+- Acceptance criteria
 
-PRD / Feature Card
-Explicit decision
-Constraints and non-goals
-Stage 2: Structure (Plan + Constrain)
+**Role:** AI generates (e.g., ChatGPT). Human reviews and edits.
 
-Tool: Claude
-Owner: AI (structure) + Human (approval)
+**Advance when:** The PRD matches your intent, covers edge cases, and has clear acceptance criteria. You've cut anything the AI added that you didn't ask for.
 
-Purpose
+**Do not advance when:** The PRD has scope you didn't intend, is missing key behavior, or feels too large for one cycle.
 
-Turn decisions into a bounded, executable plan.
+### Common Failure Modes
 
-Inputs
-PRD / Feature Card
-Human decision
-Canonical files (SPEC.md, ARCH.md, FLOWS.md, etc.)
-Outputs (Artifacts)
-Build Prompt (for execution)
-Explicit file scope
-Current state → target state mapping
-Constraints (DO NOT MODIFY)
-Acceptance criteria
-Human Approval Point
+| Failure | Symptom | Fix |
+|---------|---------|-----|
+| Scope creep from AI | PRD includes features you didn't ask for | Delete them. AI over-generates by default |
+| Too abstract | Requirements can't be implemented without guessing | Add specific behavior descriptions and examples |
+| Accepted without reading | Build Prompt inherits bad requirements | Always read and edit the PRD before proceeding |
 
-✅ Decision Required:
+### Tool Mapping
 
-Is scope correct?
-Are constraints respected?
-Are risks understood?
+Any ideation or exploration tool works here. The tool's job is to expand and structure, not to decide.
 
-If unclear → send back to Ideate or refine
+Typical: ChatGPT, Claude, or any conversational AI.
 
-Handoff → Execute
+---
 
-Pass:
+## Stage 3: BUILD
 
-Build Prompt
-File list
-Acceptance criteria
-Constraints
-Stage 3: Execute (Implement + Build)
+**Purpose:** Turn requirements into constrained implementation instructions and execute them.
 
-Tool: Replit / Claude Code / CI system
-Owner: AI (execution)
+**Input:** PRD section of the Feature Card.
 
-Purpose
-
-Implement exactly what was specified — nothing more.
+**Output:** BUILD section of the Feature Card, containing:
+- Build Prompt (explicit instructions for the execution tool)
+- Files affected
+- Constraints
+- Implemented code changes
 
-Inputs
-Build Prompt
-Explicit file scope
-Acceptance criteria
-Constraints
-Outputs (Artifacts)
-Code changes
-Test results
-Modified files list
-Deployment artifacts (if applicable)
-Rules
-No scope expansion
-No architectural decisions
-No “improvements” outside scope
-Stop Conditions (Escalate to Human)
-Ambiguity in requirements
-Conflicting instructions
-Unexpected architectural impact
-Handoff → Review
-
-Pass:
-
-Code + changes summary
-Test results
-Confirmation of constraint adherence
-Stage 4: Review (Validate + Decide)
-
-Tool: Human (primary), AI (supporting)
-
-Purpose
-
-Validate that execution matches intent and quality standards.
-
-Inputs
-Code changes
-Acceptance criteria
-Original decision / PRD
-Outputs (Artifacts)
-Approval or rejection
-Feedback / required changes
-Human Approval Point
-
-✅ Decision Required:
-
-Does this meet the Definition of Done?
-Is this safe to merge?
-Is the outcome correct (not just the code)?
-Handoff → Merge
-
-Only approved work proceeds.
-
-Stage 5: Merge (Commit + Finalize)
-
-Tool: Git
-
-Purpose
-
-Make the decision permanent.
-
-Inputs
-Approved changes
-Outputs (Artifacts)
-Git commit
-Updated system state
-Rule
-
-A commit is not just code — it is a recorded decision.
-
-Each commit must:
-
-Reference the decision (DECISIONS.md)
-Reference the prompt used
-Be scoped to a single logical change
-Stage 6: Learn (Feedback + Adapt)
-
-Tool: Human + AI
-
-Purpose
-
-Convert shipped work into validated learning.
-
-Inputs
-Real-world usage
-Feedback (users, stakeholders, data)
-Observed outcomes
-Outputs (Artifacts)
-Updated assumptions
-New or revised decisions
-Follow-up Feature Cards / PRDs
-Human Approval Point
-
-✅ Decision Required:
-
-Did this solve the problem?
-What did we learn?
-What should we do next?
-Feedback Loop
-LEARN → feeds back into → IDEATE
-
-This is where the system improves.
-
-Handoff Summary (System View)
-Stage	Produces	Human Approval	Next Stage
-Ideate	PRD / Feature Card	Direction decision	Structure
-Structure	Build Prompt	Scope + constraints	Execute
-Execute	Code + artifacts	None (unless blocked)	Review
-Review	Approval / feedback	Go / No-Go	Merge
-Merge	Commit	Implicit	Learn
-Learn	Insights + next steps	What next?	Ideate
-Artifact Flow
-Idea
-  ↓
-Feature Card / PRD
-  ↓
-Build Prompt
-  ↓
-Code Changes
-  ↓
-Commit (Decision)
-  ↓
-Learning / Insights
-  ↓
-Next Idea
-Repository as Shared Memory
-
-The repo is the single source of truth across all tools.
-
-Key files:
-
-SPEC.md → What the system does
-ARCH.md → How it is structured
-FLOWS.md → User experience
-EVENTS.md → Contracts (if event-driven)
-DECISIONS.md → Why things are the way they are
-Critical Rules
-1. Humans are the decision points
-
-AI proposes and executes. Humans approve and validate.
-
-2. No skipping approval points
-
-Speed comes from clarity — not bypassing decisions.
-
-3. Pull, not push
-
-Work only moves forward when the next stage is ready.
-
-4. No overproduction
-
-Do not generate:
-
-More PRDs than can be reviewed
-More code than can be validated
-More work than can be completed
-5. Output is not progress
-
-Progress = validated learning
-
-Common Failure Modes
-Symptom	Root Cause	Fix
-Too many unfinished items	WIP too high	Stop starting, start finishing
-Lots of code, little progress	No validation	Enforce Review stage
-AI doing too much	Skipped approvals	Reinstate human checkpoints
-Rework increasing	Poor DoR	Tighten Definition of Ready
-Burnout / confusion	Overproduction	Reduce input, protect attention
-System Reminder
-
-This workflow is not about speed of generation.
-
-It is about:
-
-Controlling flow
-Protecting decisions
-Turning output into learning
-
-If the system feels chaotic, the issue is not execution.
-
-It is too much work entering the system.
+This stage has two sub-steps:
+
+### 3a: Generate the Build Prompt
+
+A structuring tool (e.g., Claude) reads the PRD and produces a Build Prompt using the template in `templates/build-prompts/TEMPLATE.md`.
+
+The Build Prompt specifies:
+- What files to create or modify
+- What files NOT to touch
+- Current state vs. target state
+- Acceptance criteria
+- Constraints the execution tool must respect
+
+**Role:** AI generates. Human reviews before passing to execution.
+
+### 3b: Execute the Build Prompt
+
+An execution tool (e.g., Replit, Claude Code, Cursor) implements the Build Prompt.
+
+**Role:** AI executes. Human monitors.
+
+The execution tool must:
+- Follow the Build Prompt exactly
+- Not expand scope beyond what's specified
+- Stop and report if it encounters ambiguity or conflicts
+
+**Advance when:** Implementation is complete, tests pass (if applicable), and only the specified files were changed.
+
+**Do not advance when:** The execution tool went off-script, introduced changes you didn't ask for, or hit unresolved conflicts.
+
+### Common Failure Modes
+
+| Failure | Symptom | Fix |
+|---------|---------|-----|
+| Loose Build Prompt | Execution tool invents features or restructures code | Tighten file scope and constraints |
+| No constraints section | Tool modifies files outside scope | Add explicit "DO NOT MODIFY" list |
+| Skipped human review of Build Prompt | Bad instructions reach execution | Always review the Build Prompt before executing |
+| Execution tool hits ambiguity | Tool guesses instead of stopping | Add stop conditions to the Build Prompt |
+
+### Tool Mapping
+
+Structuring: Claude or any tool capable of producing structured, scoped instructions.
+
+Execution: Replit, Claude Code, Cursor, or manual implementation.
+
+---
+
+## Stage 4: DONE
+
+**Purpose:** Validate the result against the original intent.
+
+**Input:** Implemented feature + READY section of the Feature Card.
+
+**Output:** DONE section of the Feature Card, containing:
+- Whether it matches the goal
+- What's missing
+- Whether it's good enough to ship
+
+**Role:** Human. This is a judgment call, not a test suite.
+
+**Advance when:** The result matches what you defined in READY and is good enough to ship (even if imperfect).
+
+**Do not advance when:** The result doesn't match your original intent, critical pieces are missing, or you're not confident it works.
+
+### Common Failure Modes
+
+| Failure | Symptom | Fix |
+|---------|---------|-----|
+| Compared against PRD instead of READY | Accepting AI-generated scope as the goal | Always compare against your original READY section |
+| Skipped entirely | Broken or incomplete features get shipped | Two minutes. Fill out the section |
+| "Good enough" without criteria | Ship decisions based on vibes | Refer to READY's success criteria |
+
+---
+
+## Stage 5: LEARNING
+
+**Purpose:** Capture what actually happened after the feature shipped.
+
+**Input:** Real-world usage, feedback, observed behavior.
+
+**Output:** LEARNING section of the Feature Card, containing:
+- What you expected to happen
+- What actually happened
+- What was different
+- What you'll do next
+
+**Role:** Human. AI can help analyze data, but the decision about what to do next is yours.
+
+**Advance to next feature when:** You've captured the learning and made a decision about what to build next.
+
+**Do not start a new feature when:** You haven't captured LEARNING from the last one.
+
+### Common Failure Modes
+
+| Failure | Symptom | Fix |
+|---------|---------|-----|
+| Skipped | Building without feedback; repeating mistakes | Require LEARNING before starting the next Feature Card |
+| Too vague | "It went fine" without specifics | Fill in all four fields: Expected, Observed, Delta, Decision |
+| No decision | Learning captured but no action taken | The Decision field should name a concrete next step |
+
+---
+
+## The Full Flow
+
+```
+READY ──── gate: is it clear? ──── PRD
+                                     │
+                              gate: does it match intent?
+                                     │
+                                   BUILD
+                                     │
+                              gate: does the Build Prompt scope right?
+                                     │
+                                   DONE
+                                     │
+                              gate: does it match READY?
+                                     │
+                                 LEARNING
+                                     │
+                              gate: what's next?
+                                     │
+                                 Next READY
+```
+
+Every gate is a human decision. The system does not advance without one.
+
+---
+
+## Operating Modes
+
+Not every feature needs the full ceremony. ForgeOS supports four modes that adjust the level of process:
+
+| Mode | When | What You Skip | What You Owe |
+|------|------|---------------|-------------|
+| **Standard** | Default for all features | Nothing | Full Feature Card |
+| **Spike** | Time-boxed learning ("will this work?") | PRD, full Build Prompt | Written learnings within time-box |
+| **Hotfix** | Production emergency | Everything except the fix | DECISIONS.md entry within 24h |
+| **Prototype** | Exploring a new product area | Full process | Archive or productize decision within 2 weeks |
+
+Standard Mode is the default. Use the others deliberately and declare which mode you're in before starting.
+
+See `roles/PROCESS.md` for detailed rules on each mode.
