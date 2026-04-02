@@ -1,292 +1,242 @@
-Role: Process Engineer
+ForgeOS Process
 
-You are acting as the Process Engineer for this project.
+This file defines how work is controlled in the system.
 
-Your job is to define workflow rules, enforce handoff protocols, and prevent process drift.
-
-You are also responsible for:
-
-Flow control across the system
-Protecting the human decision-making bottleneck
-Preventing upstream overproduction
-Authority
-
-You own:
-
-Operating modes (Standard, Spike, Hotfix, Prototype)
-Handoff protocols between layers
-Constraint enforcement
-Documentation requirements
-Merge discipline and commit hygiene
-
-You do NOT own:
-
-Technical architecture (see Architect role)
-User experience (see UX role)
-Test criteria (see QA role)
-Flow Control & Bottleneck Protection
-
-The system is constrained by human decision-making capacity.
-
-The Process Engineer must actively manage flow to prevent overload, degraded decisions, and wasted work.
+It is not about how to build features.
+It is about how work flows, when it stops, and who decides.
 
 Core Principle
 
-Do not allow more work into the system than can be meaningfully reviewed.
+Human decision-making is the bottleneck.
+
+The system must:
+
+protect human attention
+prevent upstream overproduction
+ensure only validated work moves forward
+
+AI accelerates execution.
+Humans control flow.
+
+Flow Control Model
+
+Work moves through:
+
+READY → PRD → BUILD → DONE → LEARNING
+
+Each stage requires a human decision to advance.
+
+No stage auto-advances.
+No AI output is considered complete.
 
 Definition of Ready (DoR)
 
-Work may only enter execution when:
+A feature is READY only if:
 
- Problem is clearly defined
- Scope boundaries are explicit
- Acceptance criteria are defined
- Required inputs (files, data, dependencies) are identified
- A human has explicitly approved moving forward
+The problem is clearly defined
+The outcome is observable (success criteria)
+Scope is explicitly bounded
+“Not doing” prevents expansion
 
-If any of the above are missing → STOP and request clarification.
+If any of these are missing:
+→ Do not proceed
 
 Definition of Done (DoD)
 
-Work is only complete when:
+A feature is DONE only if:
 
- Acceptance criteria are met
- Changes are reviewed by a human
- No architectural or process drift detected
- Outcomes are validated (not just output produced)
- Learnings or decisions are captured (if applicable)
+It matches the original READY intent
+No unintended scope was added
+It is the simplest version that works
+It has been tested by a human
+It is safe to ship
 
-"Code written" ≠ Done. "Validated and understood" = Done.
+If any of these fail:
+→ Work is not done
 
-WIP Limits
+Work In Progress (WIP) Limits
+Rule
 
-To protect decision quality:
+Do not start new work if current work is not DONE
 
-Limit active work items per stage (Ideate, Structure, Execute)
-Do not allow parallel execution of multiple major features
-Prefer finishing over starting
+Limits
+1 active Feature Card per person
+1 active BUILD per feature
+Max 1 PRD in progress ahead of BUILD
+Why
+Prevents backlog of unvalidated AI output
+Protects human review capacity
+Forces completion before expansion
+Violations Look Like
+Multiple partially built features
+Large PRDs waiting for review
+AI generating faster than you can validate
+Fix
+Stop starting
+Finish or kill current work
+Stop Conditions (Critical)
 
-Rule:
+AI tools must STOP, not guess, when:
 
-If review capacity is exceeded, stop starting and start finishing.
+Requirements are ambiguous
+Multiple valid approaches exist
+A decision impacts architecture
+Required files or context are missing
+Scope would need to expand
+When STOP Happens
 
-When to Stop and Ask for a Decision
+The system must:
 
-Execution must pause when:
+Surface the issue clearly
+Return control to human
+Wait for decision
+What Must NOT Happen
+AI guessing
+AI choosing an approach silently
+AI expanding scope to “solve” ambiguity
+Decision Points
 
-Requirements are ambiguous or conflicting
-Multiple valid implementation paths exist
-Scope expands beyond original definition
-Unexpected architectural impact is discovered
-Confidence drops below acceptable threshold
+Human decisions are required at:
 
-Rule:
+Stage	Decision
+READY	Is this worth building?
+PRD	Does this match intent?
+BUILD Prompt	Is scope controlled?
+DONE	Should this ship?
+LEARNING	What do we do next?
+Rule
 
-When in doubt, escalate. Do not guess.
+If a decision is required and not made → work stops
 
 Overproduction Control
+Problem
 
-Overproduction occurs when upstream generates more than downstream can absorb.
+AI produces faster than humans can validate.
 
-Signals:
+Rule
 
-Backlog of unreviewed PRDs or code
-Increasing cycle time
-Declining decision quality
-Rework increasing
+Do not generate work that cannot be reviewed immediately
 
-Interventions:
+Examples of Violations
+Writing multiple PRDs ahead
+Generating large unused prompts
+Building features without READY clarity
+Fix
+Limit output to next actionable step only
+Complete validation before generating more
+Failure Handling
 
-Pause ideation or PRD generation
-Enforce WIP limits
-Require review before new work starts
+When something goes wrong:
 
-Rule:
+Types of Failure
+1. READY Failure
+Problem unclear
+Scope too large
 
-Pull-based system only — no pushing work downstream.
+→ Fix READY before continuing
 
-Operating Modes
-Standard Mode (Default)
+2. PRD Failure
+Scope drift
+Missing behavior
 
-Full process applies.
+→ Edit PRD
 
-Use when:
+3. BUILD Failure
+Wrong implementation
+Scope expansion
 
-Building features that touch multiple services
-Modifying contracts or schemas
-Work that will be hard to reverse
-Onboarding new team members
+→ Fix Build Prompt or re-run BUILD
+
+4. DONE Failure
+Doesn’t match intent
+Doesn’t work in reality
+
+→ Route back to PRD or BUILD
+
+Rule
+
+Do not patch forward. Fix at the source.
+
+Modes of Operation
+Standard (Default)
+Full process
+Required for all real features
+Spike
+
+Purpose: Learn quickly
+
+Skip full PRD and strict BUILD
+Time-boxed
+Must produce LEARNING
+Hotfix
+
+Purpose: Fix production issue
+
+Minimal process
+Immediate fix
+
+Required after:
+
+Document decision within 24h
+Prototype
+
+Purpose: Explore new ideas
+
+Relaxed constraints
+Not production quality
 
 Required:
 
-DECISIONS.md entry before implementation
-Structured plan from Structure layer
-Explicit file scope for Execute layer
-All acceptance criteria defined
-Work meets Definition of Ready
-Respects WIP limits and review capacity
-Spike Mode (Time-Boxed Learning)
+Decision within 2 weeks:
+Productize OR discard
+Anti-Patterns (Do Not Allow)
+1. AI-Led Development
 
-Temporarily suspend ceremony to answer a question.
+AI deciding what to build or how to build it
 
-Use when:
+→ Violates human bottleneck
 
-"Will this approach work?"
-Exploring unfamiliar APIs
-Prototyping before committing
+2. Skipping READY
 
-Rules:
+Jumping straight to building
 
-Declare spike explicitly: spikes/YYYY-MM-DD-description/
-Time-box: 2–4 hours typical, 1 day max
-Spike code is disposable, never merge
-End with written learnings
-If validated, restart with Standard Mode
+→ Causes downstream chaos
 
-Skip: DECISIONS.md, structured plans, full specs
-Keep: Work on branch, don't modify canonical files, respect time-box
+3. Overbuilding
 
-Hotfix Mode (Production Emergency)
+Adding features not defined
 
-Bypass process to stop bleeding.
+→ Creates review bottleneck
 
-Use when:
+4. “Looks Good” Shipping
 
-Production is down
-Security vulnerability
-Data integrity issue
+No real validation
 
-Rules:
+→ Produces fragile systems
 
-Fix first, document second
-Limit scope to immediate problem
-Retro within 24 hours: DECISIONS.md entry
-Architectural review within 1 week
+5. Parallel Work Explosion
 
-Skip: Everything except "make it work"
-Owe: Post-incident documentation, drift assessment
+Too many things in progress
 
-Prototype Mode (Pre-Spec Exploration)
+→ Slows everything down
 
-For work where requirements are undefined.
+What This Process Guarantees
 
-Use when:
+If followed:
 
-New product area
-Customer discovery
-Technical feasibility unknown
+Work stays aligned with intent
+AI remains controlled and useful
+Output stays reviewable
+Learning compounds over time
 
-Rules:
+If broken:
 
-Lives in prototypes/ directory
-No shared dependencies with production
-2-week maximum before decision: productize or archive
-Prototypes don't set architectural precedent
-Layer Handoff Protocols
-Ideate → Structure
+AI output piles up
+Quality drops
+System becomes unpredictable
+Final Rule
 
-The human provides:
+Nothing moves forward without a human decision.
 
-Clear problem statement
-Constraints and non-goals
-Decision: which direction to pursue
-
-Structure layer receives:
-
-Refined requirements
-Context from exploration
-Explicit scope boundaries
-Structure → Execute
-
-Structure layer provides:
-
-Explicit file list to modify
-Current state → Target state
-Constraints (DO NOT MODIFY sections)
-Acceptance criteria
-
-Execute layer must:
-
-Confirm work meets Definition of Ready
-Confirm scope before starting
-Stop if architectural conflict detected
-Report discrepancies, don't resolve them
-Execute → Merge
-
-Execute layer provides:
-
-List of files changed
-Summary of modifications
-Confirmation no drift occurred
-Test results
-
-Merge requires:
-
-Definition of Done satisfied
-All acceptance criteria met
-No architectural drift
-Commit references prompt/decision
-Constraint Enforcement
-
-When reviewing work, verify:
-
-For Execute Layer:
-
- Only touched files in explicit scope
- No new services introduced
- No new event types created
- No cross-service imports added
- Existing contracts preserved
-
-For Structure Layer:
-
- Referenced canonical files
- Labeled proposals as proposals
- Identified affected services
- Specified schema changes
- Logged decisions with rationale
-Documentation Requirements by Mode
-Mode	DECISIONS.md	SPEC Update	Full Plan	Time Limit
-Standard	Required before	If behavior changes	Required	None
-Spike	After (learnings)	No	No	1 day max
-Hotfix	Within 24h	If needed	No	Until stable
-Prototype	At end (decision)	No	No	2 weeks max
-Anti-Patterns to Catch
-Permanent Spike Mode: Always in spike = no process
-"Basically a Hotfix": Deadline pressure ≠ emergency
-Prototype to Production: Prototype code becoming production is how rot starts
-"I'll Document Later": You won't — if ignored twice, it's blocking
-Implicit Mode: Work without declaring mode
-Overproduction: Generating work faster than it can be reviewed
-Commit Hygiene
-
-Every commit should:
-
-Reference the prompt or decision that authorized it
-Be scoped to one logical change
-Include mode declaration if not Standard
-feat(discovery): add candidate review panel
-
-Mode: Standard
-Decision: DECISIONS.md#2024-03-15-discovery-workflow
-Prompt: prompts/build-prompt-discovery-review.md
-Escape Valve
-
-Sometimes the right call is: "We're pre-PMF, this doesn't matter yet, just ship it."
-
-That's valid. But say it explicitly:
-
-## YYYY-MM-DD: [Feature] shipped without full process
-
-Rationale: Pre-PMF velocity priority. Accepted tech debt.
-Remediation trigger: [specific condition]
-
-Acknowledging debt separates moving fast from making a mess.
-
-System Reminder
-
-This system does not fail due to lack of output.
-
-It fails when human decision-making becomes overloaded.
-
-The Process Engineer exists to prevent that.
+This is the control point.
+This is what makes forgeOS work.
