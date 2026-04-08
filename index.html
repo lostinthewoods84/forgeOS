@@ -318,24 +318,25 @@
 
   <section id="getting-started">
     <h2>Getting Started</h2>
-    <p>ForgeOS is not an app you install — it's a set of templates and role files you adopt into your own project. Here's how to set it up and run your first feature.</p>
+    <p>ForgeOS is not an app you install — it's a skeleton you use as the starting point for a new project. Clone it, make it yours, and start building.</p>
 
     <h3>Step 1 — Download ForgeOS</h3>
-    <p>Clone the repo or download it as a ZIP from GitHub:</p>
-    <pre><code>git clone https://github.com/lostinthewoods84/forgeOS.git</code></pre>
-    <p>Or <a href="https://github.com/lostinthewoods84/forgeOS" target="_blank" style="color:#ff6b2b;">open it on GitHub</a> and use <strong>Code → Download ZIP</strong>.</p>
+    <p>Clone the repo from GitHub — this becomes the starting point for your new project:</p>
+    <pre><code>git clone https://github.com/lostinthewoods84/forgeOS.git my-project
+cd my-project</code></pre>
+    <p>Or <a href="https://github.com/lostinthewoods84/forgeOS" target="_blank" style="color:#ff6b2b;">open it on GitHub</a> and use <strong>Code → Download ZIP</strong>, then rename the folder to your project name.</p>
 
-    <h3>Step 2 — Copy it into your project</h3>
-    <p>Navigate to your existing project and copy the ForgeOS files in. You only need three things to start:</p>
-    <pre><code># From inside your own project directory
-cp -r /path/to/forgeOS/templates ./templates
-cp -r /path/to/forgeOS/roles ./roles
-mkdir -p prompts</code></pre>
+    <h3>Step 2 — Make it your own</h3>
+    <p>Remove the ForgeOS git history and start a fresh repo for your project:</p>
+    <pre><code>rm -rf .git
+git init
+git add .
+git commit -m "init: starting from ForgeOS"</code></pre>
     <div class="highlight">
-      <p><strong>What each folder does:</strong><br>
+      <p><strong>What's already in place:</strong><br>
       <code>templates/</code> — the Feature Card and Build Prompt templates you'll fill out per feature.<br>
       <code>roles/</code> — AI persona definitions you paste into prompts to constrain AI behavior.<br>
-      <code>prompts/</code> — where your completed Feature Cards live (one file per feature).</p>
+      You'll create a <code>prompts/</code> folder as you go — one file per feature.</p>
     </div>
 
     <h3>Step 3 — Start your first Feature Card</h3>
