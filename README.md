@@ -49,11 +49,10 @@ This keeps speed high while preventing chaos.
 Most AI workflows look like this:
 
 Human → AI → Output → Problems → Human fixes → Repeat
+
 Or worse:
 
-
 Agent A → Agent B → Agent C → ??? → Output
-
 
 Outputs are inconsistent. Context is lost. Debugging is guesswork.
 
@@ -108,6 +107,44 @@ ForgeOS is designed around this:
 
 This prevents the “AI inventory trap” where speed creates more problems than progress.
 
+When needed, ForgeOS provides a lightweight way to make and track decisions before building.
+
+---
+
+## Decisions (Optional)
+
+Most features don’t need a formal decision.
+
+But when there are tradeoffs, unclear direction, or risk of rework, ForgeOS supports a lightweight way to align before building.
+
+The goal is not more process — it’s faster alignment and fewer mid-build debates.
+
+### Decision Card (Minimal)
+
+```md
+# Decision: [Short Title]
+
+**What:** [What are we deciding?]
+
+**Why:** [Why does this matter now?]
+
+**Options considered:** [A vs B vs C]
+
+**Decision:** [What did we choose + who is the decider?]
+
+**Impact:** [What changes? What are we NOT doing?]
+```
+
+Store decisions in:
+
+```
+/decisions/001-[short-title].md
+```
+
+### Flow
+
+Decision (optional) → READY → PRD → BUILD → DONE → LEARNING
+
 ---
 
 ## What This Is (and Isn’t)
@@ -123,6 +160,7 @@ This prevents the “AI inventory trap” where speed creates more problems than
 - A fully automated pipeline  
 
 ---
+
 <p align="center">
   <img src="assets/ForgeArch.png" alt="ForgeOSArch" width="600">
 </p>
