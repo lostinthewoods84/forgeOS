@@ -318,27 +318,33 @@
 
   <section id="getting-started">
     <h2>Getting Started</h2>
-    <p>First, grab the project from GitHub:</p>
-    <pre><code>git clone https://github.com/lostinthewoods84/forgeOS.git
-cd forgeOS</code></pre>
-    <p>Or <a href="https://github.com/lostinthewoods84/forgeOS" target="_blank" style="color:#ff6b2b;">download it directly on GitHub</a> using the Code → Download ZIP button.</p>
+    <p>ForgeOS is not an app you install — it's a set of templates and role files you adopt into your own project. Here's how to set it up and run your first feature.</p>
 
-    <p style="margin-top:20px;">Then run your first feature in 15–30 minutes:</p>
-    <ol>
-      <li>Copy the Feature Card template to your project</li>
-      <li>Fill out READY (2 minutes)</li>
-      <li>Generate a PRD using ChatGPT</li>
-      <li>Generate a build prompt using Claude</li>
-      <li>Implement in Replit (or your IDE)</li>
-      <li>Complete the DONE check</li>
-      <li>Capture LEARNING</li>
-    </ol>
+    <h3>Step 1 — Download ForgeOS</h3>
+    <p>Clone the repo or download it as a ZIP from GitHub:</p>
+    <pre><code>git clone https://github.com/lostinthewoods84/forgeOS.git</code></pre>
+    <p>Or <a href="https://github.com/lostinthewoods84/forgeOS" target="_blank" style="color:#ff6b2b;">open it on GitHub</a> and use <strong>Code → Download ZIP</strong>.</p>
 
-    <h3>Copy the Feature Card</h3>
-    <pre><code>mkdir -p prompts
-cp templates/FEATURE-CARD.md prompts/feature-[your-feature-name].md</code></pre>
+    <h3>Step 2 — Copy it into your project</h3>
+    <p>Navigate to your existing project and copy the ForgeOS files in. You only need three things to start:</p>
+    <pre><code># From inside your own project directory
+cp -r /path/to/forgeOS/templates ./templates
+cp -r /path/to/forgeOS/roles ./roles
+mkdir -p prompts</code></pre>
+    <div class="highlight">
+      <p><strong>What each folder does:</strong><br>
+      <code>templates/</code> — the Feature Card and Build Prompt templates you'll fill out per feature.<br>
+      <code>roles/</code> — AI persona definitions you paste into prompts to constrain AI behavior.<br>
+      <code>prompts/</code> — where your completed Feature Cards live (one file per feature).</p>
+    </div>
 
-    <h3>Fill out READY</h3>
+    <h3>Step 3 — Start your first Feature Card</h3>
+    <p>Make a copy of the Feature Card template and name it after the feature you're building:</p>
+    <pre><code>cp templates/FEATURE-CARD.md prompts/feature-[your-feature-name].md</code></pre>
+    <p>Open that file. This is the document you'll fill in as you work through the loop.</p>
+
+    <h3>Step 4 — Fill out READY (2 min)</h3>
+    <p>This is the only section you write yourself, before touching any AI tool. If you can't fill it out clearly, you're not ready to build yet.</p>
     <pre><code>## 1. READY
 
 What:
@@ -354,9 +360,74 @@ Success:
 
 Not doing:
 - No backend persistence
-- No email notifications</code></pre>
+- No email notifications
+- No settings/preferences</code></pre>
+
+    <h3>Step 5 — Generate a PRD with ChatGPT (5 min)</h3>
+    <p>Paste your READY section into ChatGPT with this prompt:</p>
+    <pre><code>I want to build this feature:
+
+[paste your READY section]
+
+Generate a short PRD with:
+- Requirements
+- Behavior description
+- Edge cases
+- Acceptance criteria
+
+Keep it concise. One page max.</code></pre>
+    <p>Paste the result into section 2 of your Feature Card. Then read it — cut anything the AI added that you didn't ask for.</p>
+
+    <h3>Step 6 — Generate a Build Prompt with Claude (5 min)</h3>
+    <p>Paste your PRD into Claude along with the Build Prompt template:</p>
+    <pre><code>I need a build prompt for this feature.
+
+Here's the PRD:
+[paste PRD]
+
+Create a build prompt using this template:
+[paste contents of templates/build-prompts/TEMPLATE.md]</code></pre>
+    <p>Paste the result into section 3 of your Feature Card. Review the file scope and constraints — make sure nothing outside your intended changes is included.</p>
+
+    <h3>Step 7 — Implement (5–15 min)</h3>
+    <p>Give the Build Prompt to your execution tool — Replit, Claude Code, Cursor, or manual coding. The tool should implement exactly what the prompt specifies and nothing more. If it starts inventing features, the Build Prompt needs to be tighter.</p>
+
+    <h3>Step 8 — DONE check (2 min)</h3>
+    <p>Compare the result against what you wrote in READY — not what the AI produced. Fill in section 4:</p>
+    <pre><code>## 4. DONE CHECK
+
+Did we achieve the outcome? yes
+
+What actually changed for the user:
+Bell icon appears in header, shows badge count, opens panel on click
+
+What's still broken / missing:
+No empty state yet
+
+Good enough to ship? yes (POC)</code></pre>
+
+    <h3>Step 9 — Capture LEARNING (2 min)</h3>
+    <p>After the feature ships, fill in section 5. This is the feedback loop that makes the next cycle better:</p>
+    <pre><code>## 5. LEARNING
+
+Expected:
+Users will click the notification button to check updates
+
+Observed:
+Low engagement — few clicks in the first week
+
+Delta:
+Notifications may not be valuable enough yet
+
+Decision:
+Improve notification content before adding more features</code></pre>
+
+    <div class="highlight">
+      <p><strong>That's one full cycle.</strong> Commit the Feature Card to your repo — it's a permanent record of what was built, why, and what happened. Then start the next READY.</p>
+    </div>
 
     <h3>As Complexity Grows</h3>
+    <p>Add structure only when you feel friction, not in advance of it:</p>
     <table>
       <tr>
         <th>Friction</th>
