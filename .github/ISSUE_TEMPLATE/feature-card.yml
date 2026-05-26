@@ -1,0 +1,34 @@
+name: ForgeOS Feature Card
+description: Create a ForgeOS feature artifact
+title: "[Feature]: "
+labels:
+  - forgeos
+body:
+  - type: textarea
+    id: context
+    attributes:
+      label: Context
+      description: What problem are we solving?
+    validations:
+      required: true
+
+  - type: textarea
+    id: outcome
+    attributes:
+      label: Desired Outcome
+    validations:
+      required: true
+
+  - type: textarea
+    id: scope
+    attributes:
+      label: Scope
+    validations:
+      required: true
+
+  - type: textarea
+    id: done
+    attributes:
+      label: Done Signal
+    validations:
+      required: true
